@@ -1,6 +1,8 @@
 #ifndef GRAFODEF
 #define GRAFODEF
 
+#include <stdio.h>
+
 #define LIMA_CENTRO 0
 #define LINCE 1
 #define MIRAFLORES 2
@@ -15,6 +17,11 @@
 // Numero de ciudades
 const int N = 10;
 
+/*
+    Distancias:
+    https://docs.google.com/spreadsheets/d/1lsCQ1IrTcD3foA8NmEVia2dVjoIufwvP7GhyRsfiShM/edit?usp=sharing 
+*/
+
 double GRAFO[N][N] = {
     {0.0,  4.4,  7.1,  10.5, 3.8,  13.4, 13.7, 3.3,  6.8,  7.1},  /* Distancias de LIMA CENTRO a todos los demas */
     {4.4,  0.0,  3.2,  6.9,  7.4,  16.8, 14.3, 2.8,  4.6,  5.8},  /* Distancias de LINCE a todos los demas */
@@ -27,5 +34,52 @@ double GRAFO[N][N] = {
     {6.8,  4.6,  5.7,  8.7,  9.6,  16.5, 17.9, 6.8,  0.0,  9.2},  /* Distancias de MAGDALENA DEL MAR a todos los demas */
     {7.1,  5.8,  5.2,  7.4,  10.3, 20.2, 8.8,  4.3,  9.2,  0.0}   /* Distancias de SAN BORJA a todos los demas */
 };
+
+void print_ciudad(int ciudad, bool newline = false) {
+    switch(ciudad) {
+        case LIMA_CENTRO:
+            printf("Lima Centro ");
+            if (newline) printf("\n");
+            break;
+        case LINCE:
+            printf("Lince ");
+            if (newline) printf("\n");
+            break;
+        case MIRAFLORES:
+            printf("Miraflores ");
+            if (newline) printf("\n");
+            break;
+        case BARRANCO:
+            printf("Barranco ");
+            if (newline) printf("\n");
+            break;
+        case RIMAC:
+            printf("Rimac ");
+            if (newline) printf("\n");
+            break;
+        case LOS_OLIVOS:
+            printf("Los Olivos ");
+            if (newline) printf("\n");
+            break;
+        case LA_MOLINA:
+            printf("La Molina ");
+            if (newline) printf("\n");
+            break;
+        case LA_VICTORIA:
+            printf("La Victoria ");
+            if (newline) printf("\n");
+            break;
+        case MAGDALENA_DEL_MAR:
+            printf("Magdalena del Mar ");
+            if (newline) printf("\n");
+            break;
+        case SAN_BORJA:
+            printf("San Borja ");
+            if (newline) printf("\n");
+            break;
+        default:
+            break;
+    }
+}
 
 #endif
