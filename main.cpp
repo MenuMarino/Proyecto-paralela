@@ -21,7 +21,7 @@ float mejor_camino_distancia = INT_MAX;
 int c = 0;
 
 void BranchAndBound(stack<int> path, float cur_dist) {
-    if (path.size() == N - 1) {
+    if (path.size() == N ) {
         if (cur_dist + GRAFO[LIMA_CENTRO][path.top()] < mejor_camino_distancia) {
             mejor_camino = path;
             mejor_camino.push(LIMA_CENTRO);
