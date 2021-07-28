@@ -61,6 +61,13 @@ struct nodo {
         nodos_visitados = vn;
     };
 
+    ~nodo() {
+        for (int i = 0; i < N; i++) {
+            delete [] mat[i];
+        }
+        delete [] mat;
+    }
+
     void set_matrix(double **_m){
         mat = _m;
     }
@@ -202,6 +209,13 @@ int main(){
     }
     cout << endl;
     cout << "Costo = " << mejor_camino->coste << endl;
+
+    for (int i = 0; i < N; i++) {
+            delete [] GRAFO[i];
+    }
+    delete [] GRAFO;
+
+    delete root;
 
     return 0;
 }
