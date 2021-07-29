@@ -22,7 +22,7 @@ const int N = 10;
     https://docs.google.com/spreadsheets/d/1lsCQ1IrTcD3foA8NmEVia2dVjoIufwvP7GhyRsfiShM/edit?usp=sharing 
 */
 
-double GRAFO[N][N] = {
+double GRAFITO[N][N] = {
     {0.0,  4.4,  7.1,  10.5, 3.8,  13.4, 13.7, 3.3,  6.8,  7.1},  /* Distancias de LIMA CENTRO a todos los demas */
     {4.4,  0.0,  3.2,  6.9,  7.4,  16.8, 14.3, 2.8,  4.6,  5.8},  /* Distancias de LINCE a todos los demas */
     {7.1,  3.2,  0.0,  3.9,  10.7, 20.0, 13.5, 5.4,  5.7,  5.2},  /* Distancias de MIRAFLORES a todos los demas */

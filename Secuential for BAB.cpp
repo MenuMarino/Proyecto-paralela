@@ -22,20 +22,20 @@ int c = 0;
 
 void BranchAndBound(stack<int> path, float cur_dist) {
     if (path.size() == N ) {
-        if (cur_dist + GRAFO[LIMA_CENTRO][path.top()] < mejor_camino_distancia) {
+        if (cur_dist + GRAFITO[LIMA_CENTRO][path.top()] < mejor_camino_distancia) {
             mejor_camino = path;
             mejor_camino.push(LIMA_CENTRO);
-            mejor_camino_distancia = cur_dist + GRAFO[LIMA_CENTRO][path.top()];
+            mejor_camino_distancia = cur_dist + GRAFITO[LIMA_CENTRO][path.top()];
         }
     } else {
         int ultima_ciudad = path.top();
         for (const auto& ciudad : ciudades) {
             if (visitados[ciudad] || ultima_ciudad == ciudad) continue;
             // branch and bound
-            if (cur_dist + GRAFO[ciudad][ultima_ciudad] < mejor_camino_distancia) {
+            if (cur_dist + GRAFITO[ciudad][ultima_ciudad] < mejor_camino_distancia) {
                 visitados[ciudad] = true;
                 path.push(ciudad);
-                BranchAndBound(path, cur_dist + GRAFO[ciudad][ultima_ciudad]);
+                BranchAndBound(path, cur_dist + GRAFITO[ciudad][ultima_ciudad]);
                 path.pop();
                 visitados[ciudad] = false;
             }
@@ -44,22 +44,33 @@ void BranchAndBound(stack<int> path, float cur_dist) {
     path.pop();
 }
 
-void print_mejor_camino() {
-    auto cpy = mejor_camino;
-    while (cpy.size() != 1) {
-        int A = cpy.top();
-        print_ciudad(A);
-        cpy.pop();
-        int B = cpy.top();
-        printf("%.2f km ", GRAFO[A][B]);
-        print_ciudad(B, true);
+void print_mejor_camino(bool debug = false) {
+    if (debug) {
+        auto cpy = mejor_camino;
+        while (cpy.size() != 1) {
+            int A = cpy.top();
+            print_ciudad(A);
+            cpy.pop();
+            int B = cpy.top();
+            printf("%.2f km ", GRAFITO[A][B]);
+            print_ciudad(B, true);
+        }
     }
-    printf("\nDistancia total de: %.2f\n", mejor_camino_distancia);
+
+    auto cpy = mejor_camino;
+    while (cpy.size()) {
+        cout << cpy.top() << " - ";
+        cpy.pop();
+    }
+
+    printf("\nCosto = %.1f\n", mejor_camino_distancia);
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+    bool debug = false;
+    if (argc >= 2) debug = true;
     camino.push(0);
     BranchAndBound(camino, 0.0);
-    print_mejor_camino();
+    print_mejor_camino(debug);
     return 0;
 }
