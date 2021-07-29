@@ -1,3 +1,8 @@
+/*
+    Version 3: (Branch and bound)
+    Paralelizado e iterativo
+*/
+
 #include <iostream>
 #include <stack>
 #include <iomanip>
