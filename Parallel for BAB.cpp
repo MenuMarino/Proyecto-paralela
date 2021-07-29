@@ -129,11 +129,10 @@ pair<double**, double> reducir(double **mati, int from, int to){
     return {mat, acumulado_reduccion};
 }
 
-
-
-
 int main(){
-
+    double itime, ftime, exec_time;
+    cout << "\n================ Parallel ==================\n";
+    itime = omp_get_wtime();
     double **GRAFO = new double *[N];
     for (int i = 0; i < N; i++) {
         GRAFO[i] = new double[N];
@@ -186,6 +185,8 @@ int main(){
             }
         }
     }
+    ftime = omp_get_wtime();
+    exec_time = ftime - itime;
 
     auto temp = mejor_camino;
     cout << "0 - ";
@@ -195,7 +196,8 @@ int main(){
     }
     cout << endl;
     cout << "Costo = " << mejor_camino->coste << endl;
-
+    cout << "Tiempo: " << exec_time << " s.\n";
+    cout << "============================================\n\n";
     for (int i = 0; i < N; i++) {
         delete [] GRAFO[i];
     }

@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <queue>
+#include <sys/time.h>
 #include "grafo.h"
 
 using namespace std;
@@ -123,10 +124,10 @@ pair<double**, double> reducir(double **mati, int from, int to){
     return {mat, acumulado_reduccion};
 }
 
-
-
-
 int main(){
+    struct timeval start, end;
+    cout << "\n================ Iterative =================\n";
+
     double **GRAFO = new double *[N];
     for (int i = 0; i < N; i++) {
         GRAFO[i] = new double[N];
@@ -140,6 +141,7 @@ int main(){
 
     auto cmp = [](nodo* left, nodo* right) { return (left->coste) > (right->coste); };
     
+    gettimeofday(&start, NULL);
     auto dat = reducir(GRAFO, 0, 0);
     nodo* root = new nodo(nullptr, dat.first, dat.second, 0);
     priority_queue<nodo*, vector<nodo*>, decltype(cmp)> pq(cmp);
@@ -178,6 +180,7 @@ int main(){
             }
         }
     }
+    gettimeofday(&end, NULL);
 
     auto temp = mejor_camino;
     cout << "0 - ";
@@ -188,6 +191,11 @@ int main(){
     cout << endl;
     cout << "Costo = " << mejor_camino->coste << endl;
 
+    auto delta = ((end.tv_sec  - start.tv_sec) * 1000000u + 
+            end.tv_usec - start.tv_usec) / 1.e6;
+
+    cout << "Tiempo: " << delta << " s.\n";
+    cout << "============================================\n";
     for (int i = 0; i < N; i++) {
         delete [] GRAFO[i];
     }

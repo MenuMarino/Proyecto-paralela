@@ -7,6 +7,7 @@
 #include <stack>
 #include <vector>
 #include <limits.h>
+#include <sys/time.h>
 #include "grafo.h"
 
 using namespace std;
@@ -69,8 +70,19 @@ void print_mejor_camino(bool debug = false) {
 int main(int argc, char* argv[]) {
     bool debug = false;
     if (argc >= 2) debug = true;
+    cout << "\n================ Secuential ================\n";
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
+
     camino.push(0);
     BranchAndBound(camino, 0.0);
+
+    gettimeofday(&end, NULL);
+    auto delta = ((end.tv_sec  - start.tv_sec) * 1000000u + 
+         end.tv_usec - start.tv_usec) / 1.e6;
+
     print_mejor_camino(debug);
+    cout << "Tiempo: " << delta << " s.\n";
+    cout << "============================================\n";
     return 0;
 }
