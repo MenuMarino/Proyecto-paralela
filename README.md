@@ -6,6 +6,11 @@
 - Rodrigo Cespedes
 - Benjamin Diaz
 
+## Ejecución
+Se necesita omp instalado.
+* `make`
+* `make run`
+
 ## Ciudades
 * 0 - Lima Centro
 * 1 - Lince
