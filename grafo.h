@@ -17,6 +17,9 @@
 // Numero de ciudades
 const int N = 10;
 
+// Gasolina
+const int G = 20;
+
 /*
     Distancias:
     https://docs.google.com/spreadsheets/d/1lsCQ1IrTcD3foA8NmEVia2dVjoIufwvP7GhyRsfiShM/edit?usp=sharing 
