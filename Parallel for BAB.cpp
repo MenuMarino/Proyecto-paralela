@@ -78,7 +78,7 @@ pair<double**, double> reducir(double **mati, int from, int to){
 
     #pragma omp parallel shared(mat)
     {
-        #pragma omp for schedule(dynamic) nowait
+        #pragma omp for
         for(int i=0; i<N; ++i){
             mat[i][i] = DBL_MAX;
 
@@ -93,11 +93,12 @@ pair<double**, double> reducir(double **mati, int from, int to){
   
     #pragma omp parallel shared(mat)
     {
-        #pragma omp for schedule(dynamic) nowait
+        #pragma omp for
         for(int i=0; i<N; ++i){
 
             double min_fila = DBL_MAX;
             for(int j=0; j<N; ++j){
+                #pragma omp critical
                 if(mat[i][j] < min_fila) min_fila = mat[i][j];
             }
 
@@ -112,11 +113,14 @@ pair<double**, double> reducir(double **mati, int from, int to){
 
     #pragma omp parallel shared(mat)
     {
-        #pragma omp for schedule(dynamic) nowait
+        #pragma omp for
         for(int j=0; j<N; ++j) {
             double min_columna = DBL_MAX;
             for(int i=0; i<N; ++i) {
-                if(mat[i][j] < min_columna) min_columna = mat[i][j];
+                if(mat[i][j] < min_columna) {
+                    #pragma omp critical
+                    min_columna = mat[i][j];
+                }
             }
             if(min_columna > 0 && min_columna != DBL_MAX ) {
                 for(int i=0; i<N; ++i) {

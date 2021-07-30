@@ -18,7 +18,7 @@
 const int N = 10;
 
 // Gasolina
-const int G = 20;
+const float G = 20;
 
 /*
     Distancias:
