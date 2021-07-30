@@ -53,7 +53,7 @@ void print_mejor_camino(bool debug = false) {
             print_ciudad(A);
             cpy.pop();
             int B = cpy.top();
-            printf("%.2f km ", GRAFITO[A][B]);
+            printf("%.4f km ", GRAFITO[A][B]);
             print_ciudad(B, true);
         }
     }

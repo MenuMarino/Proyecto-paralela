@@ -81,7 +81,7 @@ void print_mejor_camino(bool debug = false) {
         cpy.pop();
     }
 
-    printf("\nCosto = %.1f\n", mejor_camino_distancia);
+    printf("\nCosto = %.4f\n", mejor_camino_distancia);
 }
 
 int main(int argc, char* argv[]) {

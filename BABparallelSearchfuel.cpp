@@ -211,7 +211,7 @@ int main(){
 
     auto t1 = high_resolution_clock::now();
 
-    cout << "\n================ Parallel ==================\n";
+    cout << "\n============= Parallel Search ===============\n";
 
     double **GRAFO = new double *[N];
     for (int i = 0; i < N; i++) {
