@@ -167,10 +167,17 @@ void recorrer(PQ& pq, double** GRAFO, bool firstime, int to){
            
             if (parada == false) {
                 upper = temp->coste;
-                if (mejor_camino == nullptr) { mejor_camino = temp; }
+                
+                #pragma omp critical
+                {
+                if(mejor_camino == nullptr){ 
+                    mejor_camino = temp; 
+                }
                 else {
                     mejor_camino = temp->coste < mejor_camino->coste ? mejor_camino = temp : mejor_camino = mejor_camino;
                 }
+                }
+                
             }
             else {
                 for (auto n : nodos_a_los_que_llegas) {

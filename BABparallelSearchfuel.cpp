@@ -169,9 +169,14 @@ void recorrer(PQ& pq, double** GRAFO, bool firstime, int to){
 
             if (parada == false) {
                 upper = temp->coste;
-                if (mejor_camino == nullptr) { mejor_camino = temp; }
+                #pragma omp critical
+                {
+                if(mejor_camino == nullptr){ 
+                    mejor_camino = temp; 
+                }
                 else {
                     mejor_camino = temp->coste < mejor_camino->coste ? mejor_camino = temp : mejor_camino = mejor_camino;
+                }
                 }
             }
             else {
@@ -236,6 +241,7 @@ int main(){
         pqs.push_back(pq);
     }
 
+<<<<<<< HEAD
     #pragma omp parallel sections
     {
         #pragma omp section
@@ -317,12 +323,33 @@ int main(){
         #pragma omp section
         recorrer(pqs[33], GRAFO, true, 34); 
         */
+=======
+    for(int i=0; i<N+1; ++i){
+        pqs.push_back(pq);
+    }
+
+    #pragma omp parallel 
+    {
+        #pragma omp single nowait 
+        {
+            for(int i=1; i<N; ++i){
+                #pragma omp task
+                recorrer(pqs[i], GRAFO, true,i);
+            }
+        
+        }
+        #pragma omp taskwait
+>>>>>>> 826ef0680ff6b43306d724ba9339c88190774225
         
     }
     
     
     
     
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 826ef0680ff6b43306d724ba9339c88190774225
 
     
     
