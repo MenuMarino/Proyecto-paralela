@@ -104,12 +104,14 @@ pair<double**, double> reducir(double **mati, int from, int to){
                 if(mat[i][j] != DBL_MAX) mat[i][j] -= min_fila; 
             }
             if(min_fila != DBL_MAX) acumulado_reduccion += min_fila; 
+            
         }
         if(min_columna > 0 && min_columna != DBL_MAX) {
             for(j=0; j<N; ++j) {
                 if(mat[j][i] != DBL_MAX) mat[j][i] -= min_columna; 
             }
             if(min_columna != DBL_MAX) acumulado_reduccion += min_columna;
+            
         }
     }
     return {mat, acumulado_reduccion};

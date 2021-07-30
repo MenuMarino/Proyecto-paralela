@@ -13,10 +13,10 @@ parallel:
 	g++ -std=c++17 -fopenmp Parallel\ for\ BAB.cpp -o parallel.exe
 
 run:
-	./iterative.exe && ./parallel.exe
+	./secuential.exe && ./iterative.exe && ./parallel.exe
 
 runfuel:
-	./iterative_f.exe && ./parallel_f.exe
+	./secuential_f.exe && ./iterative_f.exe && ./parallel_f.exe
 
 clean:
 	rm *.exe
