@@ -79,58 +79,40 @@ pair<double**, double> reducir(double **mati, int from, int to){
         }
     }
 
-    #pragma omp parallel shared(mat)
-    {
-        #pragma omp for
-        for(int i=0; i<N; ++i){
-            mat[i][i] = DBL_MAX;
+    for(int i=0; i<N; ++i){
+        mat[i][i] = DBL_MAX;
 
-            if(from != to) mat[i][to] = DBL_MAX;
-            if(from != to) mat[from][i] = DBL_MAX;
-        }
-    };
+        if(from != to) mat[i][to] = DBL_MAX;
+        if(from != to) mat[from][i] = DBL_MAX;
+    }
+    
 
     mat[to][from] = DBL_MAX;
 
     double acumulado_reduccion = 0;
-  
-    #pragma omp parallel shared(mat)
-    {
-        #pragma omp for
-        for(int i=0; i<N; ++i){
-
-            double min_fila = DBL_MAX;
-            for(int j=0; j<N; ++j){
-                #pragma omp critical
-                if(mat[i][j] < min_fila) min_fila = mat[i][j];
-            }
-
-            if(min_fila > 0 && min_fila != DBL_MAX ) {
-                for(int j=0; j<N; ++j) {
-                    if(mat[i][j] != DBL_MAX) mat[i][j] -= min_fila; 
-                }
-                if(min_fila != DBL_MAX) acumulado_reduccion += min_fila; 
-            }
+    
+    double min_fila = DBL_MAX;
+    double min_columna = DBL_MAX;
+    int i,j;
+    #pragma omp parallel for private(i, min_fila, min_columna, j) reduction(+:acumulado_reduccion)
+    for(i=0; i<N; ++i){
+        min_fila = DBL_MAX;
+        min_columna = DBL_MAX;
+        for(j=0; j<N; ++j) {
+            min_fila = min(min_fila, mat[i][j]);
+            min_columna = min(min_columna, mat[j][i]);
         }
-    }
-
-    #pragma omp parallel shared(mat)
-    {
-        #pragma omp for
-        for(int j=0; j<N; ++j) {
-            double min_columna = DBL_MAX;
-            for(int i=0; i<N; ++i) {
-                if(mat[i][j] < min_columna) {
-                    #pragma omp critical
-                    min_columna = mat[i][j];
-                }
+        if(min_fila > 0 && min_fila != DBL_MAX) {
+            for(j=0; j<N; ++j) {
+                if(mat[i][j] != DBL_MAX) mat[i][j] -= min_fila; 
             }
-            if(min_columna > 0 && min_columna != DBL_MAX ) {
-                for(int i=0; i<N; ++i) {
-                    if(mat[i][j] != DBL_MAX) mat[i][j] -= min_columna; 
-                }
-                if(min_columna != DBL_MAX) acumulado_reduccion += min_columna;
+            if(min_fila != DBL_MAX) acumulado_reduccion += min_fila; 
+        }
+        if(min_columna > 0 && min_columna != DBL_MAX) {
+            for(j=0; j<N; ++j) {
+                if(mat[j][i] != DBL_MAX) mat[j][i] -= min_columna; 
             }
+            if(min_columna != DBL_MAX) acumulado_reduccion += min_columna;
         }
     }
     return {mat, acumulado_reduccion};
