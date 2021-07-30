@@ -241,89 +241,6 @@ int main(){
         pqs.push_back(pq);
     }
 
-<<<<<<< HEAD
-    #pragma omp parallel sections
-    {
-        #pragma omp section
-        recorrer(pqs[0], GRAFO, true, 1);
-        #pragma omp section
-        recorrer(pqs[1], GRAFO, true, 2);
-        #pragma omp section
-        recorrer(pqs[2], GRAFO, true, 3);
-        #pragma omp section
-        recorrer(pqs[3], GRAFO, true, 4);
-        #pragma omp section
-        recorrer(pqs[4], GRAFO, true, 5);
-        #pragma omp section
-        recorrer(pqs[5], GRAFO, true, 6);
-        #pragma omp section
-        recorrer(pqs[6], GRAFO, true, 7);
-        #pragma omp section
-        recorrer(pqs[7], GRAFO, true, 8);
-        #pragma omp section
-        recorrer(pqs[8], GRAFO, true, 9);
-        
-        #pragma omp section
-        recorrer(pqs[9], GRAFO, true, 10);
-        #pragma omp section
-        recorrer(pqs[10], GRAFO, true, 11);
-        #pragma omp section
-        recorrer(pqs[11], GRAFO, true, 12);
-        #pragma omp section
-        recorrer(pqs[12], GRAFO, true, 13);
-        #pragma omp section
-        recorrer(pqs[13], GRAFO, true, 14);
-
-        
-        #pragma omp section
-        recorrer(pqs[14], GRAFO, true, 15);
-        #pragma omp section
-        recorrer(pqs[15], GRAFO, true, 16);
-        #pragma omp section
-        recorrer(pqs[16], GRAFO, true, 17);
-        #pragma omp section
-        recorrer(pqs[17], GRAFO, true, 18);
-        #pragma omp section
-        recorrer(pqs[18], GRAFO, true, 19);
-
-
-        
-        #pragma omp section
-        recorrer(pqs[19], GRAFO, true, 20);
-        #pragma omp section
-        recorrer(pqs[20], GRAFO, true, 21);
-        #pragma omp section
-        recorrer(pqs[21], GRAFO, true, 22);
-        #pragma omp section
-        recorrer(pqs[22], GRAFO, true, 23);
-        #pragma omp section
-        recorrer(pqs[23], GRAFO, true, 24);
-
-        
-        #pragma omp section
-        recorrer(pqs[24], GRAFO, true, 25);
-        #pragma omp section
-        recorrer(pqs[25], GRAFO, true, 26);
-        #pragma omp section
-        recorrer(pqs[26], GRAFO, true, 27);
-        #pragma omp section
-        recorrer(pqs[27], GRAFO, true, 28);
-        #pragma omp section
-        recorrer(pqs[28], GRAFO, true, 29); 
-
-        /*
-        #pragma omp section
-        recorrer(pqs[29], GRAFO, true, 30);
-        #pragma omp section
-        recorrer(pqs[30], GRAFO, true, 31);
-        #pragma omp section
-        recorrer(pqs[31], GRAFO, true, 32);
-        #pragma omp section
-        recorrer(pqs[32], GRAFO, true, 33);
-        #pragma omp section
-        recorrer(pqs[33], GRAFO, true, 34); 
-        */
-=======
     for(int i=0; i<N+1; ++i){
         pqs.push_back(pq);
     }
@@ -339,27 +256,11 @@ int main(){
         
         }
         #pragma omp taskwait
->>>>>>> 826ef0680ff6b43306d724ba9339c88190774225
         
     }
     
     
     
-    
-<<<<<<< HEAD
-=======
-    
->>>>>>> 826ef0680ff6b43306d724ba9339c88190774225
-
-    
-    
-   // recorrer(pq, GRAFO, true, 1);
-   // recorrer(pq1, GRAFO, true, 2);
-  //  recorrer(pq2, GRAFO, true, 3);
-    //recorrer(pq3, GRAFO, true, 4);
-    
-
-
     auto t2 = high_resolution_clock::now();
 
     duration<double, std::milli> ms_double = t2 - t1;
