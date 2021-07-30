@@ -12,8 +12,8 @@
 
 using namespace std;
 
-int ciudades[10] = {LIMA_CENTRO, LINCE, MIRAFLORES, BARRANCO, RIMAC, LOS_OLIVOS, LA_MOLINA, LA_VICTORIA, MAGDALENA_DEL_MAR, SAN_BORJA};
-bool visitados[10] = {true, false, false, false, false, false, false, false, false, false};
+int ciudades[N] = {LIMA_CENTRO, LINCE, MIRAFLORES, BARRANCO, RIMAC, LOS_OLIVOS, LA_MOLINA, LA_VICTORIA, MAGDALENA_DEL_MAR, SAN_BORJA};
+bool visitados[N] = {true, false, false, false, false, false, false, false, false, false};
 
 stack<int> camino;
 float camino_distancia = 0;
