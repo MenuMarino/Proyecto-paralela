@@ -22,6 +22,7 @@ struct nodo {
 
     int id;
     int ciudad;
+    int gasolina;
 
     unordered_map<double, bool> nodos_visitados;
 
@@ -31,19 +32,21 @@ struct nodo {
 
     double coste = 0;
 
-    nodo(nodo* p, double **m, double c, int ciu){
+    nodo(nodo* p, double **m, double c, int ciu, int gas){
         mat = m;
         padre = p;
         ciudad = ciu;
         coste = c;
+        gasolina = gas;
     };
 
-    nodo(nodo* p, double **m, double c, int ciu, unordered_map<double, bool> vn){
+    nodo(nodo* p, double **m, double c, int ciu, unordered_map<double, bool> vn, int gas){
         mat = m;
         padre = p;
         ciudad = ciu;
         coste = c;      
         nodos_visitados = vn;
+        gasolina = gas;
     };
 
     ~nodo() {
@@ -130,23 +133,22 @@ pair<double**, double> reducir(double **mati, int from, int to){
 
 template <typename PQ>
 void recorrer(PQ& pq, double** GRAFO, bool firstime, int to){
+
+
+    
     //cout << "pq size: " << pq.size() << endl;
     
     while(pq.empty() == false) {
+
+        
         auto temp = pq.top();
         pq.pop();
-
-       // cout << temp->nodos_visitados.size() << endl;
-
-      
         if (temp->coste <= upper) {
-            
-            
             vector<nodo*> nodos_a_los_que_llegas;
             bool parada = false;
 
             if(firstime){
-                nodo* nodo_nuevo = new nodo(temp, nullptr, DBL_MAX, to, temp->nodos_visitados);
+                nodo* nodo_nuevo = new nodo(temp, nullptr, DBL_MAX, to, temp->nodos_visitados, temp->gasolina);
                 nodos_a_los_que_llegas.push_back(nodo_nuevo);
                 parada = true; 
                 firstime = false; 
@@ -156,7 +158,7 @@ void recorrer(PQ& pq, double** GRAFO, bool firstime, int to){
                 
                 if (GRAFO[temp->ciudad][i] != DBL_MAX && temp->nodos_visitados[i] == false) {
                     //cout << "aqui" << endl;
-                    nodo* nodo_nuevo = new nodo(temp, nullptr, DBL_MAX, i, temp->nodos_visitados);
+                    nodo* nodo_nuevo = new nodo(temp, nullptr, DBL_MAX, i, temp->nodos_visitados, temp->gasolina);
                     nodos_a_los_que_llegas.push_back(nodo_nuevo);
                     parada = true;
                    // cout << "aqui" << endl;
@@ -164,7 +166,7 @@ void recorrer(PQ& pq, double** GRAFO, bool firstime, int to){
                 }
             }
 
-           
+
             if (parada == false) {
                 upper = temp->coste;
                 if (mejor_camino == nullptr) { mejor_camino = temp; }
@@ -176,12 +178,22 @@ void recorrer(PQ& pq, double** GRAFO, bool firstime, int to){
                 for (auto n : nodos_a_los_que_llegas) {
                     auto data = reducir(temp->mat, temp->ciudad, n->ciudad);
                     n->set_matrix(data.first);
-                    n->coste = temp->mat[temp->ciudad][n->ciudad] + temp->coste + data.second;
+                    if (n->gasolina - GRAFO[temp->ciudad][n->ciudad] <= 0) {
+                        n->coste = (temp->mat[temp->ciudad][n->ciudad] + temp->coste + data.second) + (GRAFO[temp->ciudad][n->ciudad] - n->gasolina)*2;
+                        n->gasolina = G;
+                    }
+                    else {
+                        n->coste = temp->mat[temp->ciudad][n->ciudad] + temp->coste + data.second;
+                        n->gasolina = n->gasolina - GRAFO[temp->ciudad][n->ciudad];
+                    }
+                    //n->coste = temp->mat[temp->ciudad][n->ciudad] + temp->coste + data.second;
                     n->nodos_visitados[n->ciudad] = true;
                     pq.push(n);
                 }
             }
         }
+
+
     }
 }
 
@@ -208,16 +220,21 @@ int main(){
     }
 
     
+
     auto cmp = [](nodo* left, nodo* right) { return (left->coste) > (right->coste); };
 
     
     auto dat = reducir(GRAFO, 0, 0);
-    nodo* root = new nodo(nullptr, dat.first, dat.second, 0);
+    nodo* root = new nodo(nullptr, dat.first, dat.second, 0, G);
     priority_queue<nodo*, vector<nodo*>, decltype(cmp)> pq(cmp);
     root->nodos_visitados[0] = true;
     pq.push(root);
 
     vector<priority_queue<nodo*, vector<nodo*>, decltype(cmp)>> pqs;
+
+    for(int i=0; i<N; ++i){
+        pqs.push_back(pq);
+    }
 
     for(int i=0; i<N+1; ++i){
         pqs.push_back(pq);
@@ -236,6 +253,7 @@ int main(){
         #pragma omp taskwait
         
     }
+    
     
     
     
