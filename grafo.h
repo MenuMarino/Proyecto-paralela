@@ -15,7 +15,7 @@
 #define SAN_BORJA 9
 
 // Numero de ciudades
-const int N = 20;
+const int N = 30;
 
 // Gasolina
 const float G = 20;

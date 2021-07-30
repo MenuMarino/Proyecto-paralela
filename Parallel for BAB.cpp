@@ -88,29 +88,39 @@ pair<double**, double> reducir(double **mati, int from, int to){
 
     double acumulado_reduccion = 0;
     
-    double min_fila = DBL_MAX;
-    double min_columna = DBL_MAX;
+    double min_fila;
+    double min_columna;
     int i,j;
     #pragma omp parallel for private(i, min_fila, min_columna, j) reduction(+:acumulado_reduccion)
     for(i=0; i<N; ++i){
         min_fila = DBL_MAX;
         min_columna = DBL_MAX;
         for(j=0; j<N; ++j) {
+            #pragma omp atomic write
             min_fila = min(min_fila, mat[i][j]);
+            #pragma omp atomic write
             min_columna = min(min_columna, mat[j][i]);
         }
         if(min_fila > 0 && min_fila != DBL_MAX) {
             for(j=0; j<N; ++j) {
-                if(mat[i][j] != DBL_MAX) mat[i][j] -= min_fila; 
+                if(mat[i][j] != DBL_MAX) 
+                    #pragma omp atomic update
+                    mat[i][j] -= min_fila; 
             }
-            if(min_fila != DBL_MAX) acumulado_reduccion += min_fila; 
+            if(min_fila != DBL_MAX) 
+                #pragma omp atomic update
+                acumulado_reduccion += min_fila; 
             
         }
         if(min_columna > 0 && min_columna != DBL_MAX) {
             for(j=0; j<N; ++j) {
-                if(mat[j][i] != DBL_MAX) mat[j][i] -= min_columna; 
+                if(mat[j][i] != DBL_MAX) 
+                    #pragma omp atomic update
+                    mat[j][i] -= min_columna; 
             }
-            if(min_columna != DBL_MAX) acumulado_reduccion += min_columna;
+            if(min_columna != DBL_MAX) 
+                #pragma omp atomic update
+                acumulado_reduccion += min_columna;
             
         }
     }
